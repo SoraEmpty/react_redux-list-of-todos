@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-
 const initialState = null as number | null;
 
 export const selectedTodoSlice = createSlice({
@@ -12,6 +11,7 @@ export const selectedTodoSlice = createSlice({
   },
 });
 
-export const { setSelectedTodoId, clearSelectedTodoId } = selectedTodoSlice.actions;
+export const { setSelectedTodoId, clearSelectedTodoId } =
+  selectedTodoSlice.actions;
 
 export default selectedTodoSlice.reducer;

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useEffect } from 'react';
-import { useAppDispath, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { clearSelectedTodoId, setSelectedTodoId } from '../../features/selectedTodoSlice';
 
 export const TodoList: React.FC = () => {
@@ -8,16 +8,19 @@ export const TodoList: React.FC = () => {
   const status = useAppSelector(state => state.filter.status)
   const query = useAppSelector(state => state.filter.query)
   const selectedTodo = useAppSelector(state => state.selectedTodoId)
-  let visibleTodos = todos.filter(todo => {
-    const matchesStatus =
-      status === 'all' ||
-      (status === 'active' && !todo.completed) ||
-      (status === 'completed' && todo.completed);
-    const matchesQuery = todo.title.toLowerCase().includes(query.toLowerCase());
+  const visibleTodos = React.useMemo(() => {
+    return todos.filter(todo => {
+      const matchesStatus =
+        status === 'all' ||
+        (status === 'active' && !todo.completed) ||
+        (status === 'completed' && todo.completed);
 
-    return matchesStatus && matchesQuery;
-  });
-  const dispatch = useAppDispath();
+      const matchesQuery = todo.title.toLowerCase().includes(query.toLowerCase());
+
+      return matchesStatus && matchesQuery;
+    });
+  }, [todos, status, query]);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(clearSelectedTodoId())
   }, [status, query, dispatch])

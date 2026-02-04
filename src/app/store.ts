@@ -4,7 +4,12 @@ import { filterSlice } from '../features/filter';
 import { todosSlice } from '../features/todos';
 import { selectedTodoSlice } from '../features/selectedTodoSlice';
 
-const rootReducer = combineSlices(currentTodoSlice, filterSlice, todosSlice, selectedTodoSlice);
+const rootReducer = combineSlices(
+  currentTodoSlice,
+  filterSlice,
+  todosSlice,
+  selectedTodoSlice,
+);
 
 export const store = configureStore({
   reducer: rootReducer,

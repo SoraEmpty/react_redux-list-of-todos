@@ -2,19 +2,20 @@ import 'bulma/css/bulma.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { Loader, TodoFilter, TodoList, TodoModal } from './components';
 import { useEffect, useState } from 'react';
-import { useAppDispath } from './app/hooks';
+import { useAppDispatch } from './app/hooks';
 import { setTodos } from './features/todos';
 import { getTodos } from './api';
 
 export const App = () => {
   const [loading, setLoading] = useState(true);
-  const dispatch = useAppDispath();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    setLoading(true)
     getTodos()
-    .then(todos => dispatch(setTodos(todos)))
-    .finally(() => setLoading(false))
-  }, [])
+      .then(todos => dispatch(setTodos(todos)))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <>
       <div className="section">
@@ -26,14 +27,12 @@ export const App = () => {
               <TodoFilter />
             </div>
 
-            <div className="block">
-              {loading ? <Loader /> : <TodoList />}
-            </div>
+            <div className="block">{loading ? <Loader /> : <TodoList />}</div>
           </div>
         </div>
       </div>
 
       <TodoModal />
     </>
-  )
+  );
 };

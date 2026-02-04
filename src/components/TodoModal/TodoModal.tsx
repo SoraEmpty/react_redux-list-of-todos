@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Loader } from '../Loader';
-import { useAppDispath, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { clearSelectedTodoId } from '../../features/selectedTodoSlice';
 import { getUser } from '../../api';
 import { User } from '../../types/User';
@@ -11,9 +11,10 @@ export const TodoModal: React.FC = () => {
   const [loading, setLoading] = useState(true);
     const selectedTodo = useAppSelector(state => state.selectedTodoId)
     const todos = useAppSelector(state => state.todos)
-    const dispatch = useAppDispath();
+    const dispatch = useAppDispatch();
     const todo = todos.find(t => t.id === selectedTodo);
     useEffect(() => {
+      setUser(null)
       setLoading(true)
       if (todo) {
         getUser(todo?.userId).then((userFromServer) => { setUser(userFromServer) }).finally(() => setLoading(false))
@@ -24,7 +25,7 @@ export const TodoModal: React.FC = () => {
     }
   return (
     <div className="modal is-active" data-cy="modal">
-      <div className="modal-background" onClick={() => clearSelectedTodoId}/>
+      <div className="modal-background" onClick={() => dispatch(clearSelectedTodoId())}/>
       <div className="modal-card">
         <header className="modal-card-head">
           <div
@@ -51,7 +52,7 @@ export const TodoModal: React.FC = () => {
               < strong className="has-text-danger">Planned</strong>
           }
             {' by '}
-            <a href="mailto:Sincere@april.biz">{user?.name}</a>
+            <a href={`mailto:${user?.email}`}>{user?.name}</a>
           </p>
         </div>
       </div>
